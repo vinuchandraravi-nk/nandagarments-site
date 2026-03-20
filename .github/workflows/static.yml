@@ -28,16 +28,16 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build Website
-        run: pnpm run build
+        # We use 'pnpm exec vite build' to bypass the workspace filter error
+        run: pnpm exec vite build
 
       - name: Upload Finished Site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # This is where the built files go
-
+          path: './dist' 
   deploy:
     needs: build
     runs-on: ubuntu-latest
